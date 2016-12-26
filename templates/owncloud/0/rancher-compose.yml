@@ -5,5 +5,36 @@
   uuid: owncloud-0
   minimum_rancher_version: v0.51.0
   questions:
+  - variable: "fqdn"
+    label: "LB FQDN"
+    description: "App name for FQDN"
+    type: "string"
+    required: true
+    default: "owncloud"
+  - variable: "lb_source_port"
+    label: "LB Source Port"
+    description: "Source port for GLB"
+    type: "string"
+    required: true
+    default: "8082"
 
 owncloud:
+
+owncloud-lb:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: owncloud
+        source_port: ${lb_source_port}
+        target_port: 80
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
