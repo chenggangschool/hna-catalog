@@ -1,16 +1,15 @@
 .catalog:
-  name: "Ghost"
-  version: "v0.1-educaas"
-  description: "Blog powered by Ghost. Requires no database"
-  uuid: ghost-0
-  minimum_rancher_version: v0.51.0
+  name: "2048"
+  version: "v0.1"
+  description: "The famous 2048 game."
+  minimum_rancher_version: v1.2.0
   questions:
   - variable: "fqdn"
     label: "LB FQDN"
     description: "App name for FQDN"
     type: "string"
     required: true
-    default: "ghost"
+    default: "wordpress"
   - variable: "lb_source_port"
     label: "LB Source Port"
     description: "Source port for GLB"
@@ -18,7 +17,8 @@
     required: true
     default: "8082"
 
-ghost-lb:
+
+game2048-lb:
     scale: 1
     start_on_create: true
     lb_config:
@@ -27,14 +27,12 @@ ghost-lb:
       - hostname: ${fqdn}
         priority: 1
         protocol: http
-        service: ghost
+        service: game2048
         source_port: ${lb_source_port}
-        target_port: 2368
+        target_port: 80
     health_check:
       response_timeout: 2000
       healthy_threshold: 2
       port: 42
       unhealthy_threshold: 3
       interval: 2000
-
-ghost:

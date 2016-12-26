@@ -1,0 +1,5 @@
+name: 2048
+description: |
+  The famous 2048 game.
+version: v0.1
+category: Games

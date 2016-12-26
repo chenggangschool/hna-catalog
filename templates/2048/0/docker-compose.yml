@@ -1,10 +1,11 @@
 version: '2'
 
 services:
-  ghost:
-    image: ghost
-
-  ghost-lb:
+  game2048:
+    image: alexwhen/docker-2048
+    labels:
+      io.rancher.glb: 'true'
+  game2048-lb:
     image: rancher/none
     labels:
       io.rancher.glb: 'true'
