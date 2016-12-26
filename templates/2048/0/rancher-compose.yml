@@ -1,5 +1,5 @@
 .catalog:
-  name: "Game 2048"
+  name: "Game2048"
   version: "v0.1"
   description: "The famous 2048 game."
   minimum_rancher_version: v1.2.0
