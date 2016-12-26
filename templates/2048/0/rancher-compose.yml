@@ -1,5 +1,5 @@
 .catalog:
-  name: "2048"
+  name: "Game 2048"
   version: "v0.1"
   description: "The famous 2048 game."
   minimum_rancher_version: v1.2.0
@@ -9,7 +9,7 @@
     description: "App name for FQDN"
     type: "string"
     required: true
-    default: "wordpress"
+    default: "game2048"
   - variable: "lb_source_port"
     label: "LB Source Port"
     description: "Source port for GLB"
