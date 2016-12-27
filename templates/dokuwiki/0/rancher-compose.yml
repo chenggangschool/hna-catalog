@@ -7,18 +7,13 @@
   maintainer: "Tim Kopplow <tim@arctium.io>"
   uuid: dokuwiki-0
   questions:
-    - variable: "dokuwiki_hostname"
-      description: "Dokuwiki hostname"
-      label: "Hostname:"
-      required: true
-      default: "dw.example.com"
-      type: "string"
-    - variable: "http_port"
-      description: "HTTP port to expose on host. Will be used to bind TCP"
-      label: "HTTP port:"
-      required: true
-      default: 80
-      type: "string"
+  - variable: "fqdn"
+    label: "LB FQDN"
+    description: "App name for FQDN"
+    type: "string"
+    required: true
+    default: "dokuwiki"
+
 
 dokuwiki-server:
   scale: 1
@@ -34,3 +29,22 @@ dokuwiki-server:
 dokuwiki-data:
   scale: 1
   retain_ip: true
+
+dokuwiki-server-lb:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: dokuwiki-server
+        source_port: 8082
+        target_port: 80
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
