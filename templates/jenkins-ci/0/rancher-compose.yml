@@ -4,12 +4,13 @@
   description: |
     Jenkins CI management server.
   questions:
-  - variable: "PORT"
-    type: "int"
-    label: "Port Number"
-    description: "Which port should Jenkins listen on?"
-    default: 8080
+  - variable: "fqdn"
+    label: "LB FQDN"
+    description: "App name for FQDN"
+    type: "string"
     required: true
+    default: "jenkins"
+
   - variable: "plugins"
     type: "multiline"
     label: "List of Plugins"
@@ -34,3 +35,22 @@ jenkins-primary:
   metadata:
     plugins: |
       ${plugins}
+
+jenkins-primary-lb:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: jenkins-primary
+        source_port: 8082
+        target_port: 8080
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
