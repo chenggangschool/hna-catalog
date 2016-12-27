@@ -10,13 +10,6 @@
     type: "string"
     required: true
     default: "game2048"
-  - variable: "lb_source_port"
-    label: "LB Source Port"
-    description: "Source port for GLB"
-    type: "string"
-    required: true
-    default: "8082"
-
 
 game2048-lb:
     scale: 1
@@ -28,7 +21,7 @@ game2048-lb:
         priority: 1
         protocol: http
         service: game2048
-        source_port: ${lb_source_port}
+        source_port: 8082
         target_port: 80
     health_check:
       response_timeout: 2000

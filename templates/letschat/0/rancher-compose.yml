@@ -10,13 +10,6 @@
     type: "string"
     required: true
     default: "letschat"
-  - variable: "lb_source_port"
-    label: "LB Source Port"
-    description: "Source port for GLB"
-    type: "string"
-    required: true
-    default: "8082"
-
 
 letschat-lb:
     scale: 1
@@ -28,7 +21,7 @@ letschat-lb:
         priority: 1
         protocol: http
         service: letschat
-        source_port: ${lb_source_port}
+        source_port: 8082
         target_port: 8080
     health_check:
       response_timeout: 2000
