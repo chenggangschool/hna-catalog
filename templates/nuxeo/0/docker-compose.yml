@@ -46,7 +46,6 @@ elasticsearch-base-master:
   entrypoint:
     - /opt/rancher/bin/run.sh
 
-
 redis:
   labels:    
     io.rancher.container.hostname_override: container_name
@@ -81,6 +80,7 @@ nuxeo:
     io.rancher.sidekicks: nuxeo-datavolume    
     io.rancher.container.hostname_override: container_name
     io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    io.rancher.glb: 'true'
   image: nuxeo:FT
   links:
   - redis:redis
@@ -90,9 +90,10 @@ nuxeo:
   - nuxeo-datavolume
 
 lb:
-  expose:
-  - 80:8080
-  image: rancher/load-balancer-service
-  links:
-  - nuxeo:nuxeo
+    image: rancher/none
+    labels:
+      io.rancher.glb: 'true'
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.glb.http: 'true'
+      io.rancher.container.create_agent: 'true'
 

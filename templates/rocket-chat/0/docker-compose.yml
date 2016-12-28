@@ -15,8 +15,10 @@ rocketchat:
     - MONGO_URL=mongodb://mongo:27017/rocketchat
   links:
     - mongo:mongo
-  ports:
-    - 3000:3000
+  labels:
+    io.rancher.glb: 'true'
+  #ports:
+    #- 3000:3000
 
 # hubot, the popular chatbot (add the bot user first and change the password before starting this image)
 hubot:
@@ -32,5 +34,22 @@ hubot:
   links:
     - rocketchat:rocketchat
 # this is used to expose the hubot port for notifications on the host on port 3001, e.g. for hubot-jenkins-notifier
-  ports:
-    - 3001:8080
+  #ports:
+  #  - 3001:8080
+  labels:
+    io.rancher.glb: 'true'
+
+rocketchatlb:
+    image: rancher/none
+    labels:
+      io.rancher.glb: 'true'
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.glb.http: 'true'
+      io.rancher.container.create_agent: 'true'
+hubotlb:
+    image: rancher/none
+    labels:
+      io.rancher.glb: 'true'
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.glb.http: 'true'
+      io.rancher.container.create_agent: 'true'

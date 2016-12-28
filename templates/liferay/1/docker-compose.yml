@@ -1,6 +1,6 @@
 liferay:
-  ports:
-  - 8080:8080/tcp
+  #ports:
+  #- 8080:8080/tcp
   environment:
     SETUP_WIZARD_ENABLED: ${SETUP_WIZARD_ENABLED}
     DB_KIND: mysql
@@ -10,6 +10,7 @@ liferay:
   log_driver: ''
   labels:
     io.rancher.container.pull_image: always
+    io.rancher.glb: 'true'
   tty: true
   log_opt: {}
   image: rsippl/liferay:7.0.0-2
@@ -32,3 +33,10 @@ mysql:
   log_opt: {}
   image: mysql:5.6.30
   stdin_open: true
+lb:
+  image: rancher/none
+  labels:
+    io.rancher.glb: 'true'
+    io.rancher.container.agent.role: environmentAdmin
+    io.rancher.glb.http: 'true'
+    io.rancher.container.create_agent: 'true'

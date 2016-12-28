@@ -42,6 +42,12 @@
       description: |
         Specifiy docker volume driver to use
       default: local
+    - variable: "fqdn"
+      label: "LB FQDN"
+      description: "App name for FQDN"
+      type: "string"
+      required: true
+      default: "plone"
 
 plone:
   scale: ${scale}
@@ -63,12 +69,20 @@ zeoserver:
     response_timeout: 2000
 
 lb:
-  scale: 1
-  load_balancer_config:
-    haproxy_config: {}
-  health_check:
-    port: 42
-    interval: 2000
-    unhealthy_threshold: 3
-    healthy_threshold: 2
-    response_timeout: 2000
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: plone
+        source_port: 8082
+        target_port: 8080
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
