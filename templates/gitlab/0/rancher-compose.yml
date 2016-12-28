@@ -23,19 +23,18 @@
       options:
         - 'https://'
         - 'http://'
-      questions:
-        - variable: "http_fqdn"
-          label: "LB FQDN for HTTP access"
-          description: "App name for FQDN by HTTP"
-          type: "string"
-          required: true
-          default: "gitlab-server-http"
-        - variable: "https_fqdn"
-          label: "LB FQDN for HTTPS access"
-          description: "App name for FQDN by HTTPS"
-          type: "string"
-          required: true
-          default: "gitlab-server-http"
+    - variable: "http_fqdn"
+      label: "LB FQDN for HTTP access"
+      description: "App name for FQDN by HTTP"
+      type: "string"
+      required: true
+      default: "gitlab-server-http"
+    - variable: "https_fqdn"
+      label: "LB FQDN for HTTPS access"
+      description: "App name for FQDN by HTTPS"
+      type: "string"
+      required: true
+      default: "gitlab-server-http"
 
 gitlab-server:
   scale: 1
