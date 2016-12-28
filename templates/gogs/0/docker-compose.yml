@@ -1,14 +1,22 @@
-gogs:
+version: '2'
+
+services:
+  gogs:
     image: gogs/gogs:latest
-    ports:
-        - ${http_port}:3000
-        - ${ssh_port}:22
+    labels:
+      io.rancher.glb: 'true'
     links:
         - mysql:db
 
-mysql:
+  mysql:
     image: mysql:latest
-    ports:
-        - ${public_port}:3306
     environment:
         MYSQL_ROOT_PASSWORD: ${mysql_password}
+
+  gogs-lb:
+    image: rancher/none
+    labels:
+      io.rancher.glb: 'true'
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.glb.http: 'true'
+      io.rancher.container.create_agent: 'true'
