@@ -5,6 +5,12 @@
   uuid: rocketchat-0
   minimum_rancher_version: v0.51.0
   questions:
+  - variable: "fqdn"
+    label: "LB FQDN"
+    description: "App name for FQDN"
+    type: "string"
+    required: true
+    default: ""
 
 
 rocketchat:

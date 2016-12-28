@@ -1,5 +1,15 @@
-mumble:
-  image: ranchercb/murmur:latest
-  ports:
-  - 64738:64738
-  - 64738:64738/udp
+version: '2'
+
+services:
+  mumble:
+    image: ranchercb/murmur:latest
+    labels:
+      io.rancher.glb: 'true'
+
+  mumble-lb:
+    image: rancher/none
+      labels:
+        io.rancher.glb: 'true'
+        io.rancher.container.agent.role: environmentAdmin
+        io.rancher.glb.http: 'true'
+        io.rancher.container.create_agent: 'true' 

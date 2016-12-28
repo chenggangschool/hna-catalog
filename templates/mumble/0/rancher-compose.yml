@@ -5,6 +5,32 @@
     Mumble is an open source, low-latency, high quality voice chat software
     primarily intended for use while gaming.
   uuid: mumble-0
+  questions:
+  - variable: "fqdn"
+    label: "LB FQDN"
+    description: "App name for FQDN"
+    type: "string"
+    required: true
+    default: "mumble"
+
+mumble-lb:
+  scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: game2048
+        source_port: 8082
+        target_port: 64738
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
 
 mumble:
   scale: 1
