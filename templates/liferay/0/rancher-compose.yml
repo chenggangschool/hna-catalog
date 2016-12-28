@@ -61,7 +61,7 @@ mysql:
     response_timeout: 2000
     healthy_threshold: 2
 
-lb:
+liferay-lb:
     scale: 1
     start_on_create: true
     lb_config:
