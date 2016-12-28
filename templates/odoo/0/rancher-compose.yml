@@ -4,5 +4,30 @@
   description: "ERP management powered by Odoo"
   uuid: odoo-0
   questions:
+  - variable: "fqdn"
+    label: "LB FQDN"
+    description: "App name for FQDN"
+    type: "string"
+    required: true
+    default: "odoo"
+
+odoo-lb:
+  scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: odoo
+        source_port: 8069
+        target_port: 80
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
 
 odoo:
