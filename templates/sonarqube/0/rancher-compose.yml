@@ -5,12 +5,12 @@
   uuid: sonarqube-0
   minimum_rancher_version: v0.51.0
   questions:
-    - variable: http_port
-      description: "HTTP port to access SonarQube UI"
-      label: "SonarQube HTTP Port"
+    - variable: "fqdn"
+      label: "LB FQDN"
+      description: "App name for FQDN"
+      type: "string"
       required: true
-      default: "9000"
-      type: "int"
+      default: "sonarqube"
     - variable: postgress_port
       description: "Port for Postgres"
       label: "Postgres Port"
@@ -53,3 +53,22 @@
       required: false
       default: ""
       type: "string"
+
+sonarqube-lb:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: sonarqube
+        source_port: 8082
+        target_port: 9000
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
