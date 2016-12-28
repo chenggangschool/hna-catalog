@@ -22,7 +22,7 @@ mumble-lb:
       - hostname: ${fqdn}
         priority: 1
         protocol: http
-        service: game2048
+        service: mumble
         source_port: 8082
         target_port: 64738
     health_check:
