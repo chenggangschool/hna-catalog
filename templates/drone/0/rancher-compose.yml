@@ -19,11 +19,12 @@
       required: true
       label: "Remote Config"
       description: "Must be the full connection string. see http://readme.drone.io/setup/overview/ for more info"
-    - variable: "public_port"
-      type: "int"
+    - variable: "fqdn"
+      label: "LB FQDN"
+      description: "App name for FQDN"
+      type: "string"
       required: true
-      label: "Public Port"
-      description: "Port that the load balancer will listen on. Must be accessible to remote driver for webhooks"
+      default: "drone"
     - variable: "database_driver"
       type: "enum"
       label: "Database Driver"
@@ -44,6 +45,7 @@
       label: "Database Service"
       description: "Service to link to for database. For instance if using the default Rancher Galera cluster select galera/galera-lb."
       default: "drone-server"
+
 drone-lb:
   scale: 1
   load_balancer_config:
@@ -54,6 +56,26 @@ drone-lb:
     unhealthy_threshold: 3
     healthy_threshold: 2
     response_timeout: 2000
+
+drone-lb-lb:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ${fqdn}
+        priority: 1
+        protocol: http
+        service: drone-lb
+        source_port: 8082
+        target_port: 8000
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
+
 drone-server:
   scale: 1
   metadata:

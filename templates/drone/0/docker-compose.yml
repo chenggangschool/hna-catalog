@@ -1,19 +1,23 @@
-drone-lb:
-  ports:
-  - ${public_port}:8000
+version: '2'
+
+services:
+
+ drone-lb:
+  labels:
+    io.rancher.glb: 'true'
   tty: true
   image: rancher/load-balancer-service
   links:
   - drone-server:drone-server
   stdin_open: true
 
-drone-healthcheck:
+ drone-healthcheck:
   image: rancher/drone-config:v0.1.0
   volumes_from:
     - drone-data-volume
   entrypoint: /giddyup health
 
-drone-server:
+ drone-server:
   image: rancher/drone-config:v0.1.0
   volumes_from:
     - drone-data-volume
@@ -22,7 +26,7 @@ drone-server:
   external_links:
     - ${database_service}:database
 
-drone-daemon:
+ drone-daemon:
   image: rancher/drone:0.4
   net: 'container:drone-server'
   volumes:
@@ -42,3 +46,11 @@ drone-data-volume:
     - /var/lib/drone
     - /etc/drone
     - /opt/rancher
+
+drone-lb-lb:
+    image: rancher/none
+    labels:
+      io.rancher.glb: 'true'
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.glb.http: 'true'
+      io.rancher.container.create_agent: 'true'
