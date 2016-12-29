@@ -1,19 +1,22 @@
-odoo:
-  image: odoo
-  labels:
-      io.rancher.glb: 'true'
-  links:
-    - db
-db:
-  image: postgres
-  environment:
-    - POSTGRES_USER=odoo
-    - POSTGRES_PASSWORD=odoo
+version: '2'
 
-odoo-lb:
-  image: rancher/none
+services:
+  odoo:
+    image: odoo
     labels:
       io.rancher.glb: 'true'
-      io.rancher.container.agent.role: environmentAdmin
-      io.rancher.glb.http: 'true'
-      io.rancher.container.create_agent: 'true'
+    links:
+      - db
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+
+  odoo-lb:
+    image: rancher/none
+    labels:
+        io.rancher.glb: 'true'
+        io.rancher.container.agent.role: environmentAdmin
+        io.rancher.glb.http: 'true'
+        io.rancher.container.create_agent: 'true'
