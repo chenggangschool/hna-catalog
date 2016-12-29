@@ -13,6 +13,9 @@
     required: true
     default: "mumble"
 
+mumble:
+  scale: 1
+
 mumble-lb:
   scale: 1
     start_on_create: true
@@ -31,6 +34,3 @@ mumble-lb:
       port: 42
       unhealthy_threshold: 3
       interval: 2000
-
-mumble:
-  scale: 1
