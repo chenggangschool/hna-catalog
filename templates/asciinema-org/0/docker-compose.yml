@@ -1,18 +1,22 @@
-asciinema-org:  
+version: '2'
+
+services:
+
+ asciinema-org:  
   image: 'asciinema/asciinema.org:latest'
   links:
     - postgres
     - redis
   restart: always
-  ports:
-    - ${port}:3000
+  labels:
+      io.rancher.glb: 'true'
   environment:
     HOST: ${host}:${port}
     DATABASE_URL: postgresql://postgres:${postgres_password}@postgres/asciinema
     REDIS_URL: redis://redis:6379
     RAILS_ENV: development
 
-postgres:
+ postgres:
   image: 'postgres:latest'
   ports:
     - 5432:5432
@@ -20,13 +24,13 @@ postgres:
     POSTGRES_PASSWORD: ${postgres_password}
   container_name: postgres
 
-redis:
+ redis:
   image: 'redis:latest'
   ports:
     - 6379:6379
   container_name: redis
 
-sidekiq:
+ sidekiq:
   image: 'asciinema/asciinema.org:latest'
   links:
     - postgres
@@ -37,3 +41,11 @@ sidekiq:
     DATABASE_URL: postgresql://postgres:${postgres_password}@postgres/asciinema
     REDIS_URL: redis://redis:6379
     RAILS_ENV: development
+
+ asciinema-org-lb:
+  image: rancher/none
+  labels:
+    io.rancher.glb: 'true'
+    io.rancher.container.agent.role: environmentAdmin
+    io.rancher.glb.http: 'true'
+    io.rancher.container.create_agent: 'true'  
