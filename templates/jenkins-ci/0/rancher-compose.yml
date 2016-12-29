@@ -18,19 +18,19 @@
       List of plugins in the format <plugin_name>[:<version>]
       one entry per line.
     default: |
-      credentials
-      git
-      git-client
-      github
-      github-api
-      github-oauth
-      greenballs
-      junit
-      plain-credentials
-      scm-api
-      ssh-credentials
-      ssh-slaves
-      swarm
+      credentials 
+      git 
+      git-client 
+      github 
+      github-api 
+      github-oauth 
+      greenballs 
+      junit 
+      plain-credentials 
+      scm-api 
+      ssh-credentials 
+      ssh-slaves 
+      swarm 
 jenkins-primary:
   metadata:
     plugins: |
