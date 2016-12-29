@@ -1,13 +1,25 @@
+version: '2'
+
+services:
+
 teamcity-data:
     image: busybox
     tty: true
     volumes:
         - /var/lib/teamcity
 
+teamcity-server-lb:
+    image: rancher/none
+    labels:
+      io.rancher.glb: 'true'
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.glb.http: 'true'
+      io.rancher.container.create_agent: 'true'
+
 teamcity-server:
     image: sjoerdmulder/teamcity:latest
-    ports:
-        - ${http_port}:8111
+    labels:
+      io.rancher.glb: 'true'
     links:
         - postgres:${postgress_container}
     environment:
@@ -26,8 +38,6 @@ postgres-data:
 
 postgres:
     image: postgres:latest
-    ports:
-        - ${postgress_port}:5432
     environment:
         PGDATA: ${postgres_data}
         POSTGRES_DB: ${postgres_db}
