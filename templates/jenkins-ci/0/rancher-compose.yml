@@ -30,7 +30,8 @@
       scm-api 
       ssh-credentials 
       ssh-slaves 
-      swarm 
+      swarm
+ 
 jenkins-primary:
   metadata:
     plugins: |
