@@ -17,7 +17,7 @@ mumble:
   scale: 1
 
 mumble-lb:
-  scale: 1
+    scale: 1
     start_on_create: true
     lb_config:
       certs: []
