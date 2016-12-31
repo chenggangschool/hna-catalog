@@ -29,5 +29,3 @@ odoo-lb:
       port: 42
       unhealthy_threshold: 3
       interval: 2000
-
-odoo:
